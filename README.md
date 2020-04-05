@@ -7,3 +7,4 @@ first:
 second:
   for the background, I'm doing this (in a compute shader, because it is parallelizable)
   https://lodev.org/cgtutor/fire.html
+  https://web.archive.org/web/20160418004150/http://freespace.virgin.net/hugo.elias/models/m_fire.htm
