@@ -207,7 +207,7 @@ private:
 
   //pitch, yaw, roll
 
-  float roll_rate, pitch_rate, yaw_rate;
+  float roll_rate=0, pitch_rate=0, yaw_rate=0;
 
 
 
@@ -235,6 +235,10 @@ private:
   GLuint yawpitchroll_loc;
   glm::vec3 yawpitchroll;
 
+  std::deque<glm::vec3> yawpitchroll_history;
+
+
+
   GLuint proj_loc;
   glm::mat4 proj;
 
@@ -251,6 +255,7 @@ private:
 
   GLuint t_loc;
   int t;
+
 
 
 
@@ -367,6 +372,9 @@ Sub::Sub()
     //UNIFORMS
     yawpitchroll_loc = glGetUniformLocation(panel_shader, "yawpitchroll");
     yawpitchroll = glm::vec3(0,0,0);
+
+    yawpitchroll_history.resize(BOX_NUM_REPEATS*30);
+
     glUniform3fv(yawpitchroll_loc, 1, glm::value_ptr(yawpitchroll));
 
     proj_loc = glGetUniformLocation(panel_shader, "proj");
@@ -1168,7 +1176,34 @@ void Sub::display()
   light_position = original_light_position + glm::vec3(2*cos(0.005*t),-2,2*sin(0.01*t));
   glUniform3fv(light_position_loc, 1, glm::value_ptr(light_position));
 
-  glDrawArrays(GL_TRIANGLES, hull_start, hull_num);
+
+  //maintaining history of yawptichroll
+  //push back - put in the new value
+  yawpitchroll_history.push_back(yawpitchroll);
+  //pop front - take out the oldest value
+  yawpitchroll_history.pop_front();
+
+
+
+  float disp_scale = scale;
+  for(int i = 0; i < BOX_NUM_REPEATS; i++)
+  {
+
+    glUniform1fv(scale_loc, 1, &disp_scale);
+    glDrawArrays(GL_TRIANGLES, hull_start, hull_num);
+    glUniform3fv(yawpitchroll_loc, 1, glm::value_ptr(yawpitchroll_history[30*i]));
+
+    disp_scale *=0.618;
+  }
+
+  cout <<yawpitchroll[0]<<" "<<yawpitchroll[1]<<" "<<yawpitchroll[2]<<endl;
+
+
+
+
+  //push and pop to keep the history
+
+  // yawpitchroll
 
 }
 
@@ -1199,7 +1234,6 @@ void Sub::update_rotation()
     else
       yawpitchroll[2] += 2*3.14;
 
-  glUniform3fv(yawpitchroll_loc, 1, glm::value_ptr(yawpitchroll));
 
 
   // view = view * glm::rotate(1.0f/200.0f,glm::vec3(view[0][0], view[0][1], view[0][2]));

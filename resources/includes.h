@@ -19,6 +19,7 @@
 #include <cstdint>
 #include <cstdlib>
 
+
 //iostream aliases
 using std::cin;
 using std::cout;
@@ -63,6 +64,8 @@ using std::endl;
 //up to 3d perlin noise generation
 #include "perlin.h"
 
+
+#define BOX_NUM_REPEATS 3
 
 
 #endif
