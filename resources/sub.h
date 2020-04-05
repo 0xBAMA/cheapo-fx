@@ -180,6 +180,10 @@ public:
   void adjust_pitch_rate(float adj) {pitch_rate += adj;}
   void adjust_yaw_rate(float adj)   {yaw_rate += adj;}
 
+  void set_roll_rate(float set)  {roll_rate = set;}
+  void set_pitch_rate(float set) {pitch_rate = set;}
+  void set_yaw_rate(float set)   {yaw_rate = set;}
+
   // void adjust_roll(int degrees);   //upcoming, allows for manual control over orientation of the ship - when used, zero out the rate value
   // void adjust_pitch(int degrees);
   // void adjust_yaw(int degrees);
@@ -1179,9 +1183,9 @@ void Sub::display()
 
   //maintaining history of yawptichroll
   //push back - put in the new value
-  yawpitchroll_history.push_back(yawpitchroll);
+  yawpitchroll_history.push_front(yawpitchroll);
   //pop front - take out the oldest value
-  yawpitchroll_history.pop_front();
+  yawpitchroll_history.pop_back();
 
 
 
@@ -1190,10 +1194,11 @@ void Sub::display()
   {
 
     glUniform1fv(scale_loc, 1, &disp_scale);
+    glUniform3fv(yawpitchroll_loc, 1, glm::value_ptr(yawpitchroll_history[6*i]));
     glDrawArrays(GL_TRIANGLES, hull_start, hull_num);
-    glUniform3fv(yawpitchroll_loc, 1, glm::value_ptr(yawpitchroll_history[30*i]));
 
-    disp_scale *=0.618;
+    // disp_scale *=0.618;
+    disp_scale *= 0.78;
   }
 
   cout <<yawpitchroll[0]<<" "<<yawpitchroll[1]<<" "<<yawpitchroll[2]<<endl;

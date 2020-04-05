@@ -274,10 +274,6 @@ int main(int argc, char **argv)
             break;
 
 
-          case 'f':
-            // glutFullScreenToggle(); //specific to freeglut
-            break;
-
           case 'g':
             // scene.compute();
             // THIS SHOULD ENSURE COHERENCY - 3/12/20 not sure if this is true? maybe only neccesary to prevent the display function from using the wrong data?
@@ -304,6 +300,12 @@ int main(int argc, char **argv)
               break;
             case 'x':
               scene->adjust_roll_rate(-0.1);
+              break;
+
+            case 'f':
+              scene->set_yaw_rate(0.0f);
+              scene->set_pitch_rate(0.0f);
+              scene->set_roll_rate(0.0f);
               break;
 
 
