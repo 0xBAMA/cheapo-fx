@@ -72,7 +72,6 @@ void main()
       gl_FragColor = vec4(vec3(0.2),1);
     }
 
-
   }
   // int fcxmod = int(gl_FragCoord.x) % 2;
   // int fcymod = int(gl_FragCoord.y) % 2;
@@ -85,4 +84,7 @@ void main()
 
 //depth coloring
   // gl_FragColor.xyz *= (1.3-gl_FragCoord.z);
+
+  gl_FragColor.xyz*=1-gl_FragCoord.z;
+
 }

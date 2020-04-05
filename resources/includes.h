@@ -65,7 +65,7 @@ using std::endl;
 #include "perlin.h"
 
 
-#define BOX_NUM_REPEATS 3
+#define BOX_NUM_REPEATS 6
 
 
 #endif
