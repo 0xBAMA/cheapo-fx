@@ -18,11 +18,8 @@ using std::cout;
 using std::endl;
 
 #include <random>
+#include "includes.h"
 
-
-
-#include "engine.h"   //engine class
-#include "rooms.h"    //rooms, accoutrement classes
 
 
 #define POINT_SPRITE_PATH "resources/textures/height/sphere_small.png"
@@ -33,14 +30,17 @@ using std::endl;
 
 //**********************************************
 
+//************************************************
+
+
 // GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-
-// GLUT
-#include <GL/freeglut.h>
-#include <GL/freeglut_ext.h>
+//SDL includes - windowing, gl context, system info
+#include <SDL.h>
+//allows you to run OpenGL inside of SDL2
+#include <SDL_opengl.h>
 
 
 // Shader Compilation
@@ -191,6 +191,8 @@ public:
   void set_scale(float scale);
   void set_time(int tin)          {t = tin; glUniform1i(t_loc,t);}
 
+  GLuint get_draw_shader() {return panel_shader;}
+
 
 
 private:
@@ -277,10 +279,6 @@ private:
   } triangle;
 
   std::vector<triangle> triangles;
-
-  accoutrement bits;  //holds buttons, keys, the ghost
-  roommodel rooms;    //holds the rooms separate from the hull
-  engine sub_engine;  //does animation for the engine
 
 };
 
